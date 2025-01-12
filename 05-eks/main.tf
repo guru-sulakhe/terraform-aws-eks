@@ -36,15 +36,16 @@ module "eks" {
   }
 
   # EKS Managed Node Group(s)
+  # an EKS Node Group, which can provision and optionally update an Auto Scaling Group of Kubernetes worker nodes compatible with EKS
   eks_managed_node_group_defaults = {
     instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
   }
 
   eks_managed_node_groups = {
     blue = {
-      min_size      = 2
-      max_size      = 10
-      desired_size  = 2
+      min_size      = 2 #2 instances(nodes)
+      max_size      = 10 #10 instances(nodes)
+      desired_size  = 2 # 2 instances(nodes)
       capacity_type = "SPOT"
       iam_role_additional_policies = {
         AmazonEBSCSIDriverPolicy          = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
