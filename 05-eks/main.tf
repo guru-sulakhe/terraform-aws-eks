@@ -42,18 +42,18 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    blue = { #instance name
-      min_size      = 2 #2 instances(nodes)
-      max_size      = 10 #10 instances(nodes)
-      desired_size  = 2 # 2 instances(nodes)
-      capacity_type = "SPOT"
-      iam_role_additional_policies = {
-        AmazonEBSCSIDriverPolicy          = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-        AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
-        #ElasticLoadBalancingFullAccess = "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"
-      }
-      # EKS takes AWS Linux 2 as it's OS to the nodes
-      key_name = aws_key_pair.eks.key_name
+    # blue = { #instance name
+    #   min_size      = 2 #2 instances(nodes)
+    #   max_size      = 10 #10 instances(nodes)
+    #   desired_size  = 2 # 2 instances(nodes)
+    #   capacity_type = "SPOT"
+    #   iam_role_additional_policies = {
+    #     AmazonEBSCSIDriverPolicy          = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+    #     AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
+    #     #ElasticLoadBalancingFullAccess = "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"
+    #   }
+    #   # EKS takes AWS Linux 2 as it's OS to the nodes
+    #   key_name = aws_key_pair.eks.key_name
     }
     green = {
       min_size      = 2
