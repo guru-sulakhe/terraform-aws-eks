@@ -27,6 +27,7 @@ resource "aws_route53_record" "expense" {
   zone_id         = var.zone_id
 }
 
+#for HTTPS access we are creating ACM Certificate to Application Load Balancer
 resource "aws_acm_certificate_validation" "expense" {
   certificate_arn         = aws_acm_certificate.expense.arn
   validation_record_fqdns = [for record in aws_route53_record.expense : record.fqdn]
