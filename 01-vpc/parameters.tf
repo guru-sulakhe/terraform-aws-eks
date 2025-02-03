@@ -1,3 +1,5 @@
+#Sending the proccessed data to ssm_parameter for the upcoming usages in there respective resources of infra
+
 resource "aws_ssm_parameter" "vpc_id" {
   name  = "/${var.project_name}/${var.environment}/vpc_id"
   type  = "String"
