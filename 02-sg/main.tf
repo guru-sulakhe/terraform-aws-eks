@@ -59,7 +59,9 @@ module "vpn" {
   ingress_rules = var.vpn_sg_rules
 }
 
-# bastion host will be accessed to public so that anyone can able to login in it
+#Here we create inbound rules in order to create communication between two resources of the project by allowing ports to the particular resource
+
+# bastion host will be accessed to public so that anyone can able to login in it and can access bastion
 resource "aws_security_group_rule" "bastion_public" {
   type              = "ingress"
   from_port         = 22
@@ -69,7 +71,7 @@ resource "aws_security_group_rule" "bastion_public" {
   security_group_id = module.bastion.sg_id
 }
 
-# EKS cluster can be accessed from bastion host
+# EKS cluster can be accessed from bastion host, here in bastion we can able to fetch cluster data
 resource "aws_security_group_rule" "cluster_bastion" {
   type              = "ingress"
   from_port         = 443
@@ -79,7 +81,7 @@ resource "aws_security_group_rule" "cluster_bastion" {
   security_group_id = module.cluster.sg_id
 }
 
-# EKS control plane accepting all traffic from nodes
+# EKS control plane accepting all traffic from nodes, nodes can access cluster
 resource "aws_security_group_rule" "cluster_node" {
   type              = "ingress"
   from_port         = 0
@@ -90,7 +92,7 @@ resource "aws_security_group_rule" "cluster_node" {
 }
 
 
-# EKS nodes accepting all traffic from control plane
+# EKS nodes accepting all traffic from control plane, cluster can access node
 resource "aws_security_group_rule" "node_cluster" {
   type              = "ingress"
   from_port         = 0
@@ -100,7 +102,7 @@ resource "aws_security_group_rule" "node_cluster" {
   security_group_id = module.node.sg_id
 }
 
-# EKS nodes should accept all traffic from nodes with in VPC CIDR range.
+# EKS nodes should accept all traffic from nodes with in VPC CIDR range, vpc can access node info
 resource "aws_security_group_rule" "node_vpc" {
   type              = "ingress"
   from_port         = 0
@@ -110,7 +112,7 @@ resource "aws_security_group_rule" "node_vpc" {
   security_group_id = module.node.sg_id
 }
 
-# RDS accepting connections from bastion
+# RDS accepting connections from bastion, bastion can access db info
 resource "aws_security_group_rule" "db_bastion" {
   type              = "ingress"
   from_port         = 3306
@@ -120,7 +122,7 @@ resource "aws_security_group_rule" "db_bastion" {
   security_group_id = module.db.sg_id
 }
 
-# DB should accept connections from EKS nodes which consists of pods
+# DB should accept connections from EKS nodes which consists of pods, node can access db info
 resource "aws_security_group_rule" "db_node" {
   type              = "ingress"
   from_port         = 3306
@@ -130,7 +132,7 @@ resource "aws_security_group_rule" "db_node" {
   security_group_id = module.db.sg_id
 }
 
-# Ingress ALB accepting traffic on 443
+# Ingress ALB accepting traffic on 443, any public user can access ingress ALB with https port
 resource "aws_security_group_rule" "ingress_public_https" {
   type              = "ingress"
   from_port         = 443
@@ -140,7 +142,7 @@ resource "aws_security_group_rule" "ingress_public_https" {
   security_group_id = module.ingress.sg_id
 }
 
-# Ingress ALB accepting traffic on 80
+# Ingress ALB accepting traffic on 80, any public user can access ingress ALB with http port
 resource "aws_security_group_rule" "ingress_public_http" {
   type              = "ingress"
   from_port         = 80
@@ -150,7 +152,7 @@ resource "aws_security_group_rule" "ingress_public_http" {
   security_group_id = module.ingress.sg_id
 }
 
-#
+# Ingress ALB accepting traffic from nodes, ingress can access any node of the cluster
 resource "aws_security_group_rule" "node_ingress" {
   type              = "ingress"
   from_port         = 30000
