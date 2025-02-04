@@ -59,6 +59,7 @@ module "vpn" {
   ingress_rules = var.vpn_sg_rules
 }
 
+# bastion host will be accessed to public so that anyone can able to login in it
 resource "aws_security_group_rule" "bastion_public" {
   type              = "ingress"
   from_port         = 22
