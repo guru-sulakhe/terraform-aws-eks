@@ -120,7 +120,7 @@ resource "aws_security_group_rule" "db_bastion" {
   security_group_id = module.db.sg_id
 }
 
-# DB should accept connections from EKS nodes
+# DB should accept connections from EKS nodes which consists of pods
 resource "aws_security_group_rule" "db_node" {
   type              = "ingress"
   from_port         = 3306
