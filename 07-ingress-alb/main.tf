@@ -50,6 +50,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 
+# ALB will sends request to the frontend server
 resource "aws_lb_target_group" "frontend" { 
   name     = "${var.project_name}-${var.environment}-frontend"
   port     = 8080
