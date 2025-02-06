@@ -1,4 +1,4 @@
-#ecr is used central storage in order to store the docker images by creating individual repos to each docker image 
+#ecr  It can be used to store and manage Docker images by creating individual repositories in AWS
 resource "aws_ecr_repository" "backend" { #backend ecr repository
   name                 = "${var.project_name}-backend"
   image_tag_mutability = "IMMUTABLE"
